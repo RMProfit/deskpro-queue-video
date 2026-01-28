@@ -76,7 +76,6 @@
       id="player"
       autoplay
       playsinline
-      controls
       preload="auto"
       loop
     >
@@ -126,6 +125,16 @@
         // You can remove this line if you prefer silent failure.
         showFallback();
       });
+      video.addEventListener('ended', async () => {
+        try {
+          video.currentTime = 0;
+          await video.play();
+        } catch (e) {
+          // If autoplay is blocked at loop boundary, leave controls visible for manual play
+          console.log('Loop replay blocked:', e);
+        }
+      }); 
+     
     </script>
   </body>
 </html>
